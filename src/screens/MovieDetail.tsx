@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, Button, StyleSheet } from 'react-native'
 
-export default function MovieDetail({ navigation }): JSX.Element {
+export default function MovieDetail({ navigation }: any): JSX.Element {
   return (
     <View style={styles.container}>
       <Text>Movie Detail Page</Text>
