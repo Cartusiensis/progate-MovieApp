@@ -12,11 +12,7 @@ const HomeStackNavigator = (): JSX.Element => (
       component={Home}
       options={{ headerShown: false }}
     />
-    <Stack.Screen
-      name="MovieDetail"
-      component={MovieDetail}
-      options={{ headerShown: false }}
-    />
+    <Stack.Screen name="MovieDetail" component={MovieDetail} />
   </Stack.Navigator>
 )
 
