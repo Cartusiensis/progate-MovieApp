@@ -11,8 +11,17 @@ import { API_ACCESS_TOKEN } from '@env'
 import { LinearGradient } from 'expo-linear-gradient'
 import { FontAwesome } from '@expo/vector-icons'
 import MovieList from '../components/movies/MovieList'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { HomeStackParamList } from '../types/navigationTypes'
 
-export default function MovieDetail({ route }: any): JSX.Element {
+type MovieDetailScreenRouteProps = NativeStackScreenProps<
+  HomeStackParamList,
+  'MovieDetail'
+>
+
+export default function MovieDetail({
+  route,
+}: MovieDetailScreenRouteProps): JSX.Element {
   const { id } = route.params
   const [detail, setDetail] = useState<MovieDetailProps>({
     title: '',
@@ -128,7 +137,6 @@ const styles = StyleSheet.create({
     padding: 10,
     height: '100%',
     width: '100%',
-    borderRadius: 8,
     display: 'flex',
     justifyContent: 'flex-end',
   },
