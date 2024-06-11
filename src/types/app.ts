@@ -45,3 +45,14 @@ export interface MovieItemProps {
     size: { width: number; height: number }
     coverType: 'poster' | 'backdrop'
 }
+
+export interface MovieDetailProps {
+  title: string
+  overview: string
+  popularity: number
+  backdrop_path: string
+  vote_average: number
+  vote_count: number
+  release_date: string
+  original_language: string
+}
