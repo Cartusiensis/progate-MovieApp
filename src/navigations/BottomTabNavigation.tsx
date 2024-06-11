@@ -4,8 +4,9 @@ import { Feather } from '@expo/vector-icons'
 import HomeStackNavigator from './HomeStackNavigation'
 import Search from '../screens/Search'
 import Favorite from '../screens/Favorite'
+import { RootTabParamList } from '../types/navigationTypes'
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator<RootTabParamList>()
 
 const BottomTabNavigator = (): JSX.Element => (
   <Tab.Navigator>
