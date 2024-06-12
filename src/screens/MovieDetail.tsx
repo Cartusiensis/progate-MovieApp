@@ -13,6 +13,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import MovieList from '../components/movies/MovieList'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { HomeStackParamList } from '../types/navigationTypes'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 type MovieDetailScreenRouteProps = NativeStackScreenProps<
   HomeStackParamList,
@@ -24,6 +25,7 @@ export default function MovieDetail({
 }: MovieDetailScreenRouteProps): JSX.Element {
   const { id } = route.params
   const [detail, setDetail] = useState<MovieDetailProps>({
+    id: 0,
     title: '',
     overview: '',
     popularity: 0,
@@ -36,6 +38,8 @@ export default function MovieDetail({
   const date = new Date(detail.release_date)
   const formattedDate = date.toDateString()
 
+  const [isFavorite, setIsFavorite] = useState<Boolean>(false)
+
   const movieLists: MovieListProps[] = [
     {
       title: 'Recommendation',
@@ -44,8 +48,27 @@ export default function MovieDetail({
     },
   ]
 
+  const checkIsFavorite = async (id: number): Promise<boolean> => {
+    let convertJSON: MovieDetailProps[] = []
+    try {
+      const initialData: string | null =
+        await AsyncStorage.getItem('@FavoriteList')
+
+      convertJSON = JSON.parse(initialData || '[]')
+    } catch (error) {
+      console.error(error)
+    } finally {
+      return convertJSON.some((movie) => movie.id === id)
+    }
+  }
+
   useEffect(() => {
-    getMovieDetail()
+    const fetchData = async () => {
+      getMovieDetail()
+      setIsFavorite(await checkIsFavorite(id))
+    }
+
+    fetchData()
   }, [])
 
   const getMovieDetail = (): void => {
@@ -62,6 +85,43 @@ export default function MovieDetail({
       .then(async (response) => await response.json())
       .then((response) => setDetail(response))
       .catch((err) => console.error(err))
+  }
+
+  const addFavorite = async (movie: MovieDetailProps): Promise<void> => {
+    try {
+      const initialData: string | null =
+        await AsyncStorage.getItem('@FavoriteList')
+
+      let favMovieList: MovieDetailProps[] = []
+      if (initialData !== null) {
+        favMovieList = [...JSON.parse(initialData), movie]
+      } else {
+        favMovieList = [movie]
+      }
+
+      await AsyncStorage.setItem('@FavoriteList', JSON.stringify(favMovieList))
+      setIsFavorite(true)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const removeFavorite = async (id: number): Promise<void> => {
+    try {
+      const initialData: string | null =
+        await AsyncStorage.getItem('@FavoriteList')
+
+      let removeFavorite: MovieDetailProps[] = JSON.parse(initialData || '[]')
+      removeFavorite = removeFavorite.filter((movie) => movie.id !== id)
+
+      await AsyncStorage.setItem(
+        '@FavoriteList',
+        JSON.stringify(removeFavorite),
+      )
+      setIsFavorite(false)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -82,6 +142,16 @@ export default function MovieDetail({
           <View style={styles.ratingContainer}>
             <FontAwesome name="star" size={18} color="yellow" />
             <Text style={styles.rating}>{detail.vote_average.toFixed(1)}</Text>
+            <FontAwesome.Button
+              name={isFavorite ? 'heart' : 'heart-o'}
+              size={24}
+              color="white"
+              iconStyle={styles.favorite}
+              backgroundColor="transparent"
+              onPress={() => {
+                isFavorite ? removeFavorite(detail.id) : addFavorite(detail)
+              }}
+            />
           </View>
         </LinearGradient>
       </ImageBackground>
@@ -149,6 +219,9 @@ const styles = StyleSheet.create({
     color: 'yellow',
     fontWeight: '700',
     fontSize: 18,
+  },
+  favorite: {
+    marginLeft: 'auto',
   },
   captionSection: {
     padding: 10,

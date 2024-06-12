@@ -7,9 +7,9 @@ import { HomeStackParamList } from '../types/navigationTypes'
 const Stack = createNativeStackNavigator<HomeStackParamList>()
 
 const HomeStackNavigator = (): JSX.Element => (
-  <Stack.Navigator initialRouteName="Home">
+  <Stack.Navigator initialRouteName="HomeScreen">
     <Stack.Screen
-      name="Home"
+      name="HomeScreen"
       component={Home}
       options={{ headerShown: false }}
     />

@@ -1,10 +1,15 @@
 export type RootTabParamList = {
-    HomeStackNavigator: undefined,
+    Home: undefined,
     Search: undefined,
     Favorite: undefined,
 }
 
 export type HomeStackParamList = {
-    Home: undefined,
-    MovieDetail: { id: string },
+    HomeScreen: undefined,
+    MovieDetail: { id: number },
+}
+
+export type FavoriteStackParamList = {
+    FavoriteScreen: undefined,
+    MovieDetail: {id: number}
 }

@@ -47,6 +47,7 @@ export interface MovieItemProps {
 }
 
 export interface MovieDetailProps {
+  id: number
   title: string
   overview: string
   popularity: number
