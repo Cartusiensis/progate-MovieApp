@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { View, Text, ScrollView, FlatList, StyleSheet } from 'react-native'
+import { View, FlatList, StyleSheet } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import MovieItem from '../components/movies/MovieItem'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useNavigation, StackActions } from '@react-navigation/native'
 
 const coverImageSize = {
   poster: {

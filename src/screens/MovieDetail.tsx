@@ -140,14 +140,18 @@ export default function MovieDetail({
         >
           <Text style={styles.movieTitle}>{detail.title}</Text>
           <View style={styles.ratingContainer}>
-            <FontAwesome name="star" size={18} color="yellow" />
-            <Text style={styles.rating}>{detail.vote_average.toFixed(1)}</Text>
+            <View style={styles.ratingInfo}>
+              <FontAwesome name="star" size={18} color="yellow" />
+              <Text style={styles.rating}>
+                {detail.vote_average.toFixed(1)}
+              </Text>
+            </View>
             <FontAwesome.Button
               name={isFavorite ? 'heart' : 'heart-o'}
               size={24}
-              color="white"
-              iconStyle={styles.favorite}
+              color="pink"
               backgroundColor="transparent"
+              underlayColor="transparent"
               onPress={() => {
                 isFavorite ? removeFavorite(detail.id) : addFavorite(detail)
               }}
@@ -213,15 +217,18 @@ const styles = StyleSheet.create({
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 2,
+    justifyContent: 'space-between',
+  },
+  ratingInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 'auto',
+    gap: 4,
   },
   rating: {
     color: 'yellow',
     fontWeight: '700',
     fontSize: 18,
-  },
-  favorite: {
-    marginLeft: 'auto',
   },
   captionSection: {
     padding: 10,
