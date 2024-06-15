@@ -8,36 +8,35 @@ export default function Search(): JSX.Element {
 
   return (
     <View style={styles.container}>
-      <View>
-        <View style={styles.topBarContainer}>
-          {['keyword', 'category'].map((item: string, index: number) => (
-            <TouchableOpacity
-              key={item}
-              activeOpacity={0.9}
-              style={{
-                ...styles.topBar,
-                backgroundColor: item === selectedBar ? '#8978A4' : '#C0B4D5',
-                borderTopLeftRadius: index === 0 ? 100 : 0,
-                borderBottomLeftRadius: index === 0 ? 100 : 0,
-                borderTopRightRadius: index === 1 ? 100 : 0,
-                borderBottomRightRadius: index === 1 ? 100 : 0,
-              }}
-              onPress={() => {
-                setSelectedBar(item)
-              }}
-            >
-              <Text style={styles.topBarLabel}>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        {selectedBar === 'keyword' ? <KeywordSearch /> : <CategorySearch />}
+      <View style={styles.topBarContainer}>
+        {['keyword', 'category'].map((item: string, index: number) => (
+          <TouchableOpacity
+            key={item}
+            activeOpacity={0.9}
+            style={{
+              ...styles.topBar,
+              backgroundColor: item === selectedBar ? '#8978A4' : '#C0B4D5',
+              borderTopLeftRadius: index === 0 ? 100 : 0,
+              borderBottomLeftRadius: index === 0 ? 100 : 0,
+              borderTopRightRadius: index === 1 ? 100 : 0,
+              borderBottomRightRadius: index === 1 ? 100 : 0,
+            }}
+            onPress={() => {
+              setSelectedBar(item)
+            }}
+          >
+            <Text style={styles.topBarLabel}>{item}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
+      {selectedBar === 'keyword' ? <KeywordSearch /> : <CategorySearch />}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 16,
   },
   topBarContainer: {
