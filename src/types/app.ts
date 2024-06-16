@@ -57,3 +57,8 @@ export interface MovieDetailProps {
   release_date: string
   original_language: string
 }
+
+export interface GenreListProps {
+  id: number,
+  name: string
+}
