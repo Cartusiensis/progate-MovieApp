@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, FlatList, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SearchStackParamList } from '../../types/navigationTypes'
 import { API_ACCESS_TOKEN } from '@env'
@@ -23,13 +29,20 @@ export default function CategoryResults({
 }: CategoryResultsRouteProps): JSX.Element {
   const { id, name } = route.params.genre
   const [result, setResult] = useState<Movie[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     getGenreResults()
-  }, [])
+  }, [page])
 
-  const getGenreResults = () => {
-    const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}`
+  const getGenreResults = (): void => {
+    if (isLoading) {
+      return
+    }
+    setIsLoading(true)
+
+    const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${page}`
     const options = {
       method: 'GET',
       headers: {
@@ -40,8 +53,20 @@ export default function CategoryResults({
 
     fetch(url, options)
       .then(async (response) => await response.json())
-      .then((response) => setResult(response.results))
-      .catch((err) => console.error(err))
+      .then((response) => {
+        setResult((prevResult) => [...prevResult, ...response.results])
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        console.error(err)
+        setIsLoading(false)
+      })
+  }
+
+  const loadNextPage = (): void => {
+    if (!isLoading) {
+      setPage((prevPage) => prevPage + 1)
+    }
   }
 
   return (
@@ -62,6 +87,11 @@ export default function CategoryResults({
         numColumns={3}
         key={3}
         columnWrapperStyle={styles.listRow}
+        onEndReached={loadNextPage}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={
+          isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null
+        }
       />
     </View>
   )

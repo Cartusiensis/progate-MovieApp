@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { View, TextInput, Text, StyleSheet, FlatList } from 'react-native'
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { API_ACCESS_TOKEN } from '@env'
 import MovieItem from '../movies/MovieItem'
@@ -14,14 +21,26 @@ const coverImageSize = {
 
 export default function KeywordSearch(): JSX.Element {
   const [keyword, setKeyword] = useState<string>('')
+  const [previousKeywordLength, setPreviousKeywordLength] = useState<number>(0)
   const [searchList, setSearchList] = useState<Movie[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    handleSubmit()
-  }, [])
+    if (keyword.length > previousKeywordLength) {
+      setSearchList([])
+      setPage(1)
+    }
+    setPreviousKeywordLength(keyword.length)
+  }, [keyword])
 
-  const handleSubmit = () => {
-    const url = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=en-US&page=1`
+  const fetchResults = (): void => {
+    if (isLoading || !keyword) {
+      return
+    }
+    setIsLoading(true)
+
+    const url = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=en-US&page=${page}`
     const options = {
       method: 'GET',
       headers: {
@@ -32,10 +51,21 @@ export default function KeywordSearch(): JSX.Element {
 
     fetch(url, options)
       .then(async (response) => await response.json())
-      .then((response) => setSearchList(response.results))
-      .catch((err) => console.error(err))
+      .then((response) => {
+        setSearchList((prevList) => [...prevList, ...response.results])
+        setPage(page + 1)
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        console.error(err)
+        setIsLoading(false)
+      })
+  }
 
-    setKeyword('')
+  const handleSubmit = (): void => {
+    if (keyword) {
+      fetchResults()
+    }
   }
 
   return (
@@ -53,7 +83,7 @@ export default function KeywordSearch(): JSX.Element {
       </View>
       <FlatList
         data={searchList}
-        renderItem={({ item }) => (
+        renderItem={({ item }: { item: Movie }) => (
           <View style={styles.listItem}>
             <MovieItem
               movie={item}
@@ -66,10 +96,15 @@ export default function KeywordSearch(): JSX.Element {
         numColumns={3}
         key={3}
         columnWrapperStyle={styles.listRow}
+        onEndReached={fetchResults}
+        onEndReachedThreshold={0.1}
         ListEmptyComponent={
           <View>
             <Text>No results found.</Text>
           </View>
+        }
+        ListFooterComponent={
+          isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null
         }
       />
     </View>
