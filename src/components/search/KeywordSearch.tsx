@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  FlatList,
-  ScrollView,
-} from 'react-native'
+import { View, TextInput, Text, StyleSheet, FlatList } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import { API_ACCESS_TOKEN } from '@env'
 import MovieItem from '../movies/MovieItem'
@@ -20,7 +13,7 @@ const coverImageSize = {
 }
 
 export default function KeywordSearch(): JSX.Element {
-  const [keyword, setKeyword] = useState<string>('naruto')
+  const [keyword, setKeyword] = useState<string>('')
   const [searchList, setSearchList] = useState<Movie[]>([])
 
   useEffect(() => {
@@ -85,6 +78,7 @@ export default function KeywordSearch(): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     marginTop: 10,
   },
   searchBar: {
