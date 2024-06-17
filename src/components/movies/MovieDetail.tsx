@@ -180,8 +180,9 @@ export default function MovieDetail({
           </View>
         </View>
       </View>
-      {movieLists.map((movieList) => (
+      {movieLists.map((movieList, index) => (
         <MovieList
+          key={index}
           title={movieList.title}
           path={movieList.path}
           coverType={movieList.coverType}
