@@ -2,10 +2,9 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Feather } from '@expo/vector-icons'
 import HomeStackNavigator from './HomeStackNavigation'
-import Search from '../screens/Search'
-import Favorite from '../screens/Favorite'
 import { RootTabParamList } from '../types/navigationTypes'
 import FavoriteStackNavigator from './FavoriteStackNavigation'
+import SearchStackNavigator from './SearchStackNavigation'
 
 const Tab = createBottomTabNavigator<RootTabParamList>()
 
@@ -23,7 +22,7 @@ const BottomTabNavigator = (): JSX.Element => (
     />
     <Tab.Screen
       name="Search"
-      component={Search}
+      component={SearchStackNavigator}
       options={{
         tabBarIcon: ({ color }) => (
           <Feather name="search" size={28} color={color} />

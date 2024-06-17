@@ -6,13 +6,13 @@ import {
   ImageBackground,
   ScrollView,
 } from 'react-native'
-import { MovieDetailProps, MovieListProps } from '../types/app'
+import { MovieDetailProps, MovieListProps } from '../../types/app'
 import { API_ACCESS_TOKEN } from '@env'
 import { LinearGradient } from 'expo-linear-gradient'
 import { FontAwesome } from '@expo/vector-icons'
-import MovieList from '../components/movies/MovieList'
+import MovieList from './MovieList'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { HomeStackParamList } from '../types/navigationTypes'
+import { HomeStackParamList } from '../../types/navigationTypes'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 type MovieDetailScreenRouteProps = NativeStackScreenProps<
