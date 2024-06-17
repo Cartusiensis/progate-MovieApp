@@ -4,7 +4,7 @@ import Search from '../screens/Search'
 import CategorySearch from '../components/search/CategorySearch'
 import KeywordSearch from '../components/search/KeywordSearch'
 import { SearchStackParamList } from '../types/navigationTypes'
-import MovieDetail from '../screens/MovieDetail'
+import MovieDetail from '../components/movies/MovieDetail'
 import CategoryResults from '../components/search/CategoryResults'
 
 const Stack = createNativeStackNavigator<SearchStackParamList>()

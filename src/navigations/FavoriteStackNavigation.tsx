@@ -1,7 +1,7 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Favorite from '../screens/Favorite'
-import MovieDetail from '../screens/MovieDetail'
+import MovieDetail from '../components/movies/MovieDetail'
 import { FavoriteStackParamList } from '../types/navigationTypes'
 
 const Stack = createNativeStackNavigator<FavoriteStackParamList>()
