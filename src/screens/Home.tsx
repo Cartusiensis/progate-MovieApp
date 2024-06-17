@@ -30,8 +30,9 @@ export default function Home(): JSX.Element {
   return (
     <ScrollView>
       <View style={styles.container}>
-        {movieLists.map((movieList) => (
+        {movieLists.map((movieList, index) => (
           <MovieList
+            key={index}
             title={movieList.title}
             path={movieList.path}
             coverType={movieList.coverType}
