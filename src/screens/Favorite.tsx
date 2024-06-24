@@ -3,6 +3,7 @@ import { View, FlatList, StyleSheet } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import MovieItem from '../components/movies/MovieItem'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Movie } from '../types/app'
 
 const coverImageSize = {
   poster: {
@@ -12,21 +13,23 @@ const coverImageSize = {
 }
 
 export default function Favorite(): JSX.Element {
-  const [favoriteList, setFavoriteList] = useState()
+  const [favoriteList, setFavoriteList] = useState<Movie[] | null>([])
 
-  const getFavoriteList = async () => {
+  const getFavoriteList = async (): Promise<Movie | null> => {
     try {
       const jsonValue = await AsyncStorage.getItem('@FavoriteList')
       return jsonValue != null ? JSON.parse(jsonValue) : null
     } catch (error) {
       console.error(error)
+      return null
     }
   }
 
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
-        setFavoriteList(await getFavoriteList())
+        const favoriteListData = await getFavoriteList()
+        setFavoriteList(favoriteListData ? [favoriteListData] : null)
       }
 
       fetchData()
