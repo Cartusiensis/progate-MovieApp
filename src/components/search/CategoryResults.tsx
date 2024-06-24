@@ -90,7 +90,7 @@ export default function CategoryResults({
         onEndReached={loadNextPage}
         onEndReachedThreshold={0.1}
         ListFooterComponent={
-          isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null
+          isLoading ? <ActivityIndicator size="large" /> : null
         }
       />
     </View>

@@ -104,7 +104,7 @@ export default function KeywordSearch(): JSX.Element {
           </View>
         }
         ListFooterComponent={
-          isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null
+          isLoading ? <ActivityIndicator size="large" /> : null
         }
       />
     </View>
@@ -140,5 +140,6 @@ const styles = StyleSheet.create({
   listItem: {
     flex: 1,
     margin: 5,
+    alignItems: 'center',
   },
 })
