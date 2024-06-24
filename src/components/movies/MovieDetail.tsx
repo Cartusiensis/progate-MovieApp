@@ -38,7 +38,7 @@ export default function MovieDetail({
   const date = new Date(detail.release_date)
   const formattedDate = date.toDateString()
 
-  const [isFavorite, setIsFavorite] = useState<Boolean>(false)
+  const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
   const movieLists: MovieListProps[] = [
     {
@@ -57,9 +57,9 @@ export default function MovieDetail({
       convertJSON = JSON.parse(initialData || '[]')
     } catch (error) {
       console.error(error)
-    } finally {
-      return convertJSON.some((movie) => movie.id === id)
     }
+
+    return convertJSON.some((movie) => movie.id === id)
   }
 
   useEffect(() => {
