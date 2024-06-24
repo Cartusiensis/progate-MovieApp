@@ -47,7 +47,6 @@ export default function Home(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     marginTop: StatusBar.currentHeight ?? 32,
-    alignItems: 'center',
     justifyContent: 'center',
     rowGap: 16,
   },
