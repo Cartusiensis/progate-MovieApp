@@ -13,9 +13,9 @@ const coverImageSize = {
 }
 
 export default function Favorite(): JSX.Element {
-  const [favoriteList, setFavoriteList] = useState<Movie[] | null>([])
+  const [favoriteList, setFavoriteList] = useState<Movie[]>([])
 
-  const getFavoriteList = async (): Promise<Movie | null> => {
+  const getFavoriteList = async (): Promise<Movie[] | null> => {
     try {
       const jsonValue = await AsyncStorage.getItem('@FavoriteList')
       return jsonValue != null ? JSON.parse(jsonValue) : null
@@ -28,8 +28,10 @@ export default function Favorite(): JSX.Element {
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
-        const favoriteListData = await getFavoriteList()
-        setFavoriteList(favoriteListData ? [favoriteListData] : null)
+        const listData = await getFavoriteList()
+        if (listData) {
+          setFavoriteList(listData)
+        }
       }
 
       fetchData()
@@ -67,5 +69,6 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     margin: 5,
+    alignItems: 'center',
   },
 })
