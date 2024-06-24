@@ -11,50 +11,48 @@ import { LinearGradient } from 'expo-linear-gradient'
 import type { MovieItemProps } from '../../types/app'
 import { useNavigation, StackActions } from '@react-navigation/native'
 
-const MovieItem = memo(
-  ({ movie, size, coverType }: MovieItemProps): JSX.Element => {
-    const navigation = useNavigation()
-    const pushAction = StackActions.push('MovieDetail', { id: movie.id })
-    const [formattedRating, setFormattedRating] = useState<string>('')
+const MovieItem = ({ movie, size, coverType }: MovieItemProps): JSX.Element => {
+  const navigation = useNavigation()
+  const pushAction = StackActions.push('MovieDetail', { id: movie.id })
+  const [formattedRating, setFormattedRating] = useState<string>('')
 
-    useEffect(() => {
-      if (movie.vote_average !== undefined) {
-        setFormattedRating(movie.vote_average.toFixed(1))
-      }
-    }, [movie])
+  useEffect(() => {
+    if (movie.vote_average !== undefined) {
+      setFormattedRating(movie.vote_average.toFixed(1))
+    }
+  }, [movie])
 
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          navigation.dispatch(pushAction)
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        navigation.dispatch(pushAction)
+      }}
+    >
+      <ImageBackground
+        resizeMode="cover"
+        style={[size, styles.backgroundImage]}
+        imageStyle={styles.backgroundImageStyle}
+        source={{
+          uri: `https://image.tmdb.org/t/p/w500${
+            coverType === 'backdrop' ? movie.backdrop_path : movie.poster_path
+          }`,
         }}
       >
-        <ImageBackground
-          resizeMode="cover"
-          style={[size, styles.backgroundImage]}
-          imageStyle={styles.backgroundImageStyle}
-          source={{
-            uri: `https://image.tmdb.org/t/p/w500${
-              coverType === 'backdrop' ? movie.backdrop_path : movie.poster_path
-            }`,
-          }}
+        <LinearGradient
+          colors={['#00000000', 'rgba(0, 0, 0, 0.7)']}
+          locations={[0.6, 0.8]}
+          style={styles.gradientStyle}
         >
-          <LinearGradient
-            colors={['#00000000', 'rgba(0, 0, 0, 0.7)']}
-            locations={[0.6, 0.8]}
-            style={styles.gradientStyle}
-          >
-            <Text style={styles.movieTitle}>{movie.title}</Text>
-            <View style={styles.ratingContainer}>
-              <FontAwesome name="star" size={16} color="yellow" />
-              <Text style={styles.rating}>{formattedRating}</Text>
-            </View>
-          </LinearGradient>
-        </ImageBackground>
-      </TouchableOpacity>
-    )
-  },
-)
+          <Text style={styles.movieTitle}>{movie.title}</Text>
+          <View style={styles.ratingContainer}>
+            <FontAwesome name="star" size={16} color="yellow" />
+            <Text style={styles.rating}>{formattedRating}</Text>
+          </View>
+        </LinearGradient>
+      </ImageBackground>
+    </TouchableOpacity>
+  )
+}
 
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -85,4 +83,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default MovieItem
+export default memo(MovieItem)
