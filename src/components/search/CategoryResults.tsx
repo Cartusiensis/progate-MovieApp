@@ -52,7 +52,7 @@ export default function CategoryResults({
     }
 
     fetch(url, options)
-      .then(async (response) => await response.json())
+      .then((response) => response.json())
       .then((response) => {
         setResult((prevResult) => [...prevResult, ...response.results])
         setIsLoading(false)
