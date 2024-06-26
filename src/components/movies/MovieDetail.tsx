@@ -72,8 +72,8 @@ export default function MovieDetail({
   }, [])
 
   const getMovieDetail = (): void => {
-    const url = `https://api.themoviedb.org/3/movie/${id}?language=en-US`
-    const options = {
+    const url: string = `https://api.themoviedb.org/3/movie/${id}?language=en-US`
+    const options: object = {
       method: 'GET',
       headers: {
         accept: 'application/json',

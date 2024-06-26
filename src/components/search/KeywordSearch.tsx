@@ -40,8 +40,8 @@ export default function KeywordSearch(): JSX.Element {
     }
     setIsLoading(true)
 
-    const url = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=en-US&page=${page}`
-    const options = {
+    const url: string = `https://api.themoviedb.org/3/search/movie?query=${keyword}&include_adult=false&language=en-US&page=${page}`
+    const options: object = {
       method: 'GET',
       headers: {
         accept: 'application/json',

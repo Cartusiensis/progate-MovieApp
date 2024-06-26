@@ -42,8 +42,8 @@ export default function CategoryResults({
     }
     setIsLoading(true)
 
-    const url = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${page}`
-    const options = {
+    const url: string = `https://api.themoviedb.org/3/discover/movie?with_genres=${id}&page=${page}`
+    const options: object = {
       method: 'GET',
       headers: {
         accept: 'application/json',

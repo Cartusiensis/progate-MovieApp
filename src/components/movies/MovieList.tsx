@@ -23,8 +23,8 @@ const MovieList = ({ title, path, coverType }: MovieListProps): JSX.Element => {
   }, [])
 
   const getMovieList = (): void => {
-    const url = `https://api.themoviedb.org/3/${path}`
-    const options = {
+    const url: string = `https://api.themoviedb.org/3/${path}`
+    const options: object = {
       method: 'GET',
       headers: {
         accept: 'application/json',

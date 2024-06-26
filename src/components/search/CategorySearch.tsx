@@ -20,8 +20,9 @@ export default function CategorySearch(): JSX.Element {
   }, [])
 
   const getGenreList = (): void => {
-    const url = 'https://api.themoviedb.org/3/genre/movie/list?language=en'
-    const options = {
+    const url: string =
+      'https://api.themoviedb.org/3/genre/movie/list?language=en'
+    const options: object = {
       method: 'GET',
       headers: {
         accept: 'application/json',
